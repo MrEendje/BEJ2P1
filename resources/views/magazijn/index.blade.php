@@ -20,6 +20,7 @@
                             <th class="px-4 py-2">{{ __('Barcode') }}</th>
                             <th class="px-4 py-2">{{ __('Naam') }}</th>
                             <th class="px-4 py-2">{{ __('Aantal aanwezig') }}</th>
+                            <th class="px-4 py-2 text-center">{{ __('Leverantie Info') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -28,6 +29,13 @@
                                 <td class="px-4 py-2">{{ $product->Barcode }}</td>
                                 <td class="px-4 py-2">{{ $product->Naam }}</td>
                                 <td class="px-4 py-2">{{ $product->magazijn?->AantalAanwezig ?? __('Geen voorraad') }}</td>
+                                <td class="px-4 py-2 text-center">
+                                    <a href="{{ route('magazijn.levering', $product) }}"
+                                       title="{{ __('Leverantie Info') }}"
+                                       class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold hover:bg-blue-200">
+                                        ?
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
