@@ -1,4 +1,8 @@
 <x-app-layout>
+    @if ($allergenen->isEmpty())
+        <meta http-equiv="refresh" content="4;url={{ route('magazijn.index') }}">
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Overzicht Allergenen') }} — {{ $product->Naam }}
@@ -8,33 +12,39 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
-                    <div>
-                        <div class="text-gray-500">{{ __('Naam Product') }}</div>
-                        <div class="font-medium">{{ $product->Naam }}</div>
+                @if ($allergenen->isEmpty())
+                    <p class="text-gray-700">
+                        {{ __('In dit product zitten geen stoffen die een allergische reactie kunnen veroorzaken') }}
+                    </p>
+                @else
+                    <div class="grid grid-cols-2 gap-4 mb-6 text-sm">
+                        <div>
+                            <div class="text-gray-500">{{ __('Naam Product') }}</div>
+                            <div class="font-medium">{{ $product->Naam }}</div>
+                        </div>
+                        <div>
+                            <div class="text-gray-500">{{ __('Barcode') }}</div>
+                            <div class="font-medium">{{ $product->Barcode }}</div>
+                        </div>
                     </div>
-                    <div>
-                        <div class="text-gray-500">{{ __('Barcode') }}</div>
-                        <div class="font-medium">{{ $product->Barcode }}</div>
-                    </div>
-                </div>
 
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead>
-                        <tr class="text-left text-gray-500">
-                            <th class="px-4 py-2">{{ __('Naam') }}</th>
-                            <th class="px-4 py-2">{{ __('Omschrijving') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @foreach ($allergenen as $allergeen)
-                            <tr>
-                                <td class="px-4 py-2">{{ $allergeen->Naam }}</td>
-                                <td class="px-4 py-2">{{ $allergeen->Omschrijving }}</td>
+                    <table class="min-w-full divide-y divide-gray-200 text-sm">
+                        <thead>
+                            <tr class="text-left text-gray-500">
+                                <th class="px-4 py-2">{{ __('Naam') }}</th>
+                                <th class="px-4 py-2">{{ __('Omschrijving') }}</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            @foreach ($allergenen as $allergeen)
+                                <tr>
+                                    <td class="px-4 py-2">{{ $allergeen->Naam }}</td>
+                                    <td class="px-4 py-2">{{ $allergeen->Omschrijving }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @endif
 
                 <p class="mt-6">
                     <a href="{{ route('magazijn.index') }}" class="text-indigo-600 hover:text-indigo-800 underline">
