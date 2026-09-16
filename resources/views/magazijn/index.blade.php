@@ -21,6 +21,7 @@
                             <th class="px-4 py-2">{{ __('Naam') }}</th>
                             <th class="px-4 py-2">{{ __('Aantal aanwezig') }}</th>
                             <th class="px-4 py-2 text-center">{{ __('Leverantie Info') }}</th>
+                            <th class="px-4 py-2 text-center">{{ __('Allergenen Info') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -34,6 +35,13 @@
                                        title="{{ __('Leverantie Info') }}"
                                        class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold hover:bg-blue-200">
                                         ?
+                                    </a>
+                                </td>
+                                <td class="px-4 py-2 text-center">
+                                    <a href="{{ route('magazijn.allergenen', $product) }}"
+                                       title="{{ __('Allergenen Info') }}"
+                                       class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold hover:bg-red-200">
+                                        &times;
                                     </a>
                                 </td>
                             </tr>

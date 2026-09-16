@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\AllergenenController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,7 @@ Route::middleware(['auth', 'role:admin,magazijn_medewerker'])
     ->group(function () {
         Route::get('/', [MagazijnController::class, 'index'])->name('index');
         Route::get('/{product}/levering', [LeveringController::class, 'show'])->name('levering');
+        Route::get('/{product}/allergenen', [AllergenenController::class, 'show'])->name('allergenen');
     });
 
 // Beheerdersgedeelte: alleen bereikbaar met de rol 'admin'.
