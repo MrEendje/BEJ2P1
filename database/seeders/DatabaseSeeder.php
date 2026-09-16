@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $adminRole = Role::where('name', 'admin')->first();
         $userRole = Role::where('name', 'user')->first();
+        $magazijnRole = Role::where('name', 'magazijn_medewerker')->first();
 
         // Een beheerder om mee in te loggen tijdens de demo.
         User::factory()->create([
@@ -34,6 +35,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'role_id' => $userRole?->id,
+        ]);
+
+        // Een magazijnmedewerker om mee in te loggen bij Overzicht Magazijn Jamin.
+        User::factory()->create([
+            'name' => 'Magazijnmedewerker',
+            'email' => 'magazijn@example.com',
+            'role_id' => $magazijnRole?->id,
         ]);
     }
 }

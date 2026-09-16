@@ -48,7 +48,25 @@ Open http://localhost:8000
 
 ## Demo-accounts (na `migrate --seed`)
 
-| Rol       | E-mail              | Wachtwoord |
-|-----------|---------------------|------------|
-| Beheerder | admin@example.com   | password   |
-| Gebruiker | test@example.com    | password   |
+| Rol                 | E-mail                | Wachtwoord |
+|---------------------|------------------------|------------|
+| Beheerder           | admin@example.com      | password   |
+| Gebruiker           | test@example.com       | password   |
+| Magazijnmedewerker  | magazijn@example.com   | password   |
+
+## Overzicht Magazijn Jamin (BE-opdracht 01)
+
+Naast de Laravel-database (`laravel`, users/roles) gebruikt de app een tweede
+connectie `jamin` (`config/database.php`) voor de zes Jamin-tabellen uit
+`database/createscript/create_script.sql`. Draai dat script los in
+phpMyAdmin/MySQL Workbench om de database `jamin` te (her)maken.
+
+- `/magazijn` — Overzicht Magazijn Jamin (alle producten, op Barcode oplopend).
+- `/magazijn/{product}/levering` — Levering Informatie (leveringen + leverancier,
+  of een melding + auto-redirect als er geen voorraad is).
+- `/magazijn/{product}/allergenen` — Overzicht Allergenen (allergenen op naam
+  oplopend, of een melding + auto-redirect als het product er geen bevat).
+
+Alleen bereikbaar voor de rollen `admin` en `magazijn_medewerker`.
+
+Een export van de `jamin`-database staat in `db/jamin_export.sql`.
