@@ -24,6 +24,13 @@
                             {{ __('Je hebt beheerdersrechten — het menu Gebruikersbeheer is zichtbaar.') }}
                         </p>
                     @endif
+                    @if (Auth::user()->hasRole(['admin', 'magazijn_medewerker']))
+                        <p>
+                            <a href="{{ route('magazijn.index') }}" class="text-indigo-600 hover:text-indigo-800 underline">
+                                {{ __('Overzicht Magazijn Jamin') }}
+                            </a>
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
