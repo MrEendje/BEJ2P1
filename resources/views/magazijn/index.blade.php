@@ -33,15 +33,19 @@
                                 <td class="px-4 py-2 text-center">
                                     <a href="{{ route('magazijn.levering', $product) }}"
                                        title="{{ __('Leverantie Info') }}"
-                                       class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 font-bold hover:bg-blue-200">
-                                        ?
+                                       class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0Zm-9 5.25h.008v.008H12v-.008Z" />
+                                        </svg>
                                     </a>
                                 </td>
                                 <td class="px-4 py-2 text-center">
                                     <a href="{{ route('magazijn.allergenen', $product) }}"
                                        title="{{ __('Allergenen Info') }}"
-                                       class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-700 font-bold hover:bg-red-200">
-                                        &times;
+                                       class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-red-100 text-red-700 hover:bg-red-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0Z" />
+                                        </svg>
                                     </a>
                                 </td>
                             </tr>
