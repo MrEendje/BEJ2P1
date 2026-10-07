@@ -21,7 +21,7 @@
                     </p>
                     @if (Auth::user()->isAdmin())
                         <p class="text-sm text-gray-600">
-                            {{ __('Je hebt beheerdersrechten — het menu Gebruikersbeheer is zichtbaar.') }}
+                            {{ __('Je hebt beheerdersrechten, het menu Gebruikersbeheer is zichtbaar.') }}
                         </p>
                     @endif
                     @if (Auth::user()->hasRole(['admin', 'magazijn_medewerker']))

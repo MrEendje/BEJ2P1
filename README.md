@@ -18,7 +18,7 @@ Gemaakt volgens les 2.3 (Laravel installeren met gebruikersrollen) en 2.4 (creat
 
 ## Createscript (les 2.4 / BE-opdracht 01)
 
-`database/createscript/create_script.sql` — een **los SQL-script** (te draaien in MySQL
+`database/createscript/create_script.sql` - een **los SQL-script** (te draaien in MySQL
 Workbench of phpMyAdmin, géén Laravel-migratie). Het script:
 
 - maakt de database `jamin` (drop + create, dus opnieuw draaien mag);
@@ -61,10 +61,10 @@ connectie `jamin` (`config/database.php`) voor de zes Jamin-tabellen uit
 `database/createscript/create_script.sql`. Draai dat script los in
 phpMyAdmin/MySQL Workbench om de database `jamin` te (her)maken.
 
-- `/magazijn` — Overzicht Magazijn Jamin (alle producten, op Barcode oplopend).
-- `/magazijn/{product}/levering` — Levering Informatie (leveringen + leverancier,
+- `/magazijn` - Overzicht Magazijn Jamin (alle producten, op Barcode oplopend).
+- `/magazijn/{product}/levering` - Levering Informatie (leveringen + leverancier,
   of een melding + auto-redirect als er geen voorraad is).
-- `/magazijn/{product}/allergenen` — Overzicht Allergenen (allergenen op naam
+- `/magazijn/{product}/allergenen` - Overzicht Allergenen (allergenen op naam
   oplopend, of een melding + auto-redirect als het product er geen bevat).
 
 Alleen bereikbaar voor de rollen `admin` en `magazijn_medewerker`.
