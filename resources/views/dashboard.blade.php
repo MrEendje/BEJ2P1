@@ -30,6 +30,11 @@
                                 {{ __('Overzicht Magazijn Jamin') }}
                             </a>
                         </p>
+                        <p>
+                            <a href="{{ route('leveranciers.index') }}" class="text-indigo-600 hover:text-indigo-800 underline">
+                                {{ __('Overzicht Leveranciers') }}
+                            </a>
+                        </p>
                     @endif
                 </div>
             </div>
