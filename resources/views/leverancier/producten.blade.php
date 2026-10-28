@@ -1,4 +1,8 @@
 <x-app-layout>
+    @if (empty($producten))
+        <meta http-equiv="refresh" content="3;url={{ route('leveranciers.index') }}">
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Geleverde producten') }}
@@ -29,14 +33,20 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @foreach ($producten as $product)
+                        @forelse ($producten as $product)
                             <tr>
                                 <td class="px-4 py-2">{{ $product->Naam }}</td>
                                 <td class="px-4 py-2">{{ $product->AantalAanwezig ?? __('Geen voorraad') }}</td>
                                 <td class="px-4 py-2">{{ str_replace('.', ',', rtrim(rtrim((string) $product->VerpakkingsEenheid, '0'), '.')) }} kg</td>
                                 <td class="px-4 py-2">{{ \Illuminate\Support\Carbon::parse($product->LaatsteLevering)->format('d-m-Y') }}</td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="4" class="px-4 py-6 text-center text-gray-700">
+                                    {{ __('Dit bedrijf heeft tot nu toe geen producten geleverd aan Jamin') }}
+                                </td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
 
