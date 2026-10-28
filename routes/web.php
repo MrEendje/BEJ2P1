@@ -5,6 +5,7 @@ use App\Http\Controllers\AllergenenController;
 use App\Http\Controllers\LeverancierController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\MagazijnController;
+use App\Http\Controllers\NieuweLeveringController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,10 +37,12 @@ Route::middleware(['auth', 'role:admin,magazijn_medewerker'])
 Route::middleware(['auth', 'role:admin,magazijn_medewerker'])
     ->prefix('leveranciers')
     ->name('leveranciers.')
-    ->whereNumber('leverancier')
+    ->whereNumber(['leverancier', 'product'])
     ->group(function () {
         Route::get('/', [LeverancierController::class, 'index'])->name('index');
         Route::get('/{leverancier}/producten', [LeverancierController::class, 'producten'])->name('producten');
+        Route::get('/{leverancier}/producten/{product}/levering', [NieuweLeveringController::class, 'create'])->name('levering.create');
+        Route::post('/{leverancier}/producten/{product}/levering', [NieuweLeveringController::class, 'store'])->name('levering.store');
     });
 
 // Beheerdersgedeelte: alleen bereikbaar met de rol 'admin'.
