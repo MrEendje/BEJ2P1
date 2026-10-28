@@ -70,3 +70,27 @@ phpMyAdmin/MySQL Workbench om de database `jamin` te (her)maken.
 Alleen bereikbaar voor de rollen `admin` en `magazijn_medewerker`.
 
 Een export van de `jamin`-database staat in `db/jamin_export.sql`.
+
+## Overzicht leveranciers en Toevoegen producten (BE-opdracht 02)
+
+Deze schermen gebruiken **stored procedures via PDO** (geen Eloquent):
+`app/Models/StoredProcedureModel.php` roept met prepared statements `CALL sp_...`
+aan op de PDO-verbinding van de `jamin`-connectie. `LeverancierModel` en
+`LeveringModel` erven daarvan. De stored procedures staan onderaan het
+createscript (stap 14 t/m 18).
+
+- `/leveranciers` - Overzicht leveranciers (Wireframe-01), gesorteerd op
+  Aantal verschillende producten aflopend. Link staat op de homepage (dashboard).
+- `/leveranciers/{leverancier}/producten` - Geleverde producten (Wireframe-02),
+  gesorteerd op Aantal in magazijn aflopend. Heeft de leverancier nog niets
+  geleverd, dan volgt een melding en na 3 seconden het overzicht (Wireframe-03).
+- `/leveranciers/{leverancier}/producten/{product}/levering` - Levering product
+  (Wireframe-04). Sla op registreert de levering en verhoogt het aantal in het
+  magazijn. Een product met `IsActief = 0` (Winegums) wordt geweigerd met een
+  melding en na 4 seconden terug naar Geleverde producten.
+
+Branches: `feature_overzicht_leverancier` (user story 1) en
+`feature_toevoegen_product` (user story 2), samengevoegd in `dev` en daarna in `main`.
+
+- `docs/Database Specificatie Tabel.docx` (en `.md`) - specificatie van de zes tabellen.
+- `vids/` - demovideo van de gerealiseerde scenario's.

@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Product
    ,Naam                VARCHAR(50)                     NOT NULL
    ,Barcode             VARCHAR(13)                     NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Allergeen
    ,Naam                VARCHAR(50)                     NOT NULL
    ,Omschrijving        VARCHAR(100)                    NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS Leverancier
    ,LeverancierNummer   VARCHAR(15)                     NOT NULL
    ,Mobiel              VARCHAR(12)                     NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS Magazijn
    ,VerpakkingsEenheidInKilogram    DECIMAL(6,3)            NOT NULL
    ,AantalAanwezig                  INT         UNSIGNED        NULL    DEFAULT NULL
    ,IsActief                        BIT                     NOT NULL    DEFAULT 1
-   ,Opmerking                       VARCHAR(250)                NULL    DEFAULT NULL
+   ,Opmerking                       VARCHAR(255)                NULL    DEFAULT NULL
    ,DatumAangemaakt                 DateTime(6)             NOT NULL
    ,DatumGewijzigd                  DateTime(6)             NOT NULL
 
@@ -254,7 +254,7 @@ CREATE TABLE IF NOT EXISTS ProductPerAllergeen
    ,ProductId           INT             UNSIGNED        NOT NULL
    ,AllergeenId         INT             UNSIGNED        NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -313,7 +313,7 @@ CREATE TABLE IF NOT EXISTS ProductPerLeverancier
    ,Aantal                      INT         UNSIGNED    NOT NULL
    ,DatumEerstVolgendeLevering  DATE                        NULL    DEFAULT NULL
    ,IsActief                    BIT                     NOT NULL    DEFAULT 1
-   ,Opmerking                   VARCHAR(250)                NULL    DEFAULT NULL
+   ,Opmerking                   VARCHAR(255)                NULL    DEFAULT NULL
    ,DatumAangemaakt             DateTime(6)             NOT NULL
    ,DatumGewijzigd              DateTime(6)             NOT NULL
 
