@@ -58,6 +58,21 @@ class RoleAccessTest extends TestCase
         $this->assertSame($adminRoleId, $target->fresh()->role_id);
     }
 
+    public function test_guest_is_redirected_from_leveranciers(): void
+    {
+        $this->get('/leveranciers')->assertRedirect('/login');
+    }
+
+    public function test_regular_user_gets_403_on_leveranciers(): void
+    {
+        $user = $this->userWithRole('user');
+
+        $this->actingAs($user)->get('/leveranciers')->assertForbidden();
+        $this->actingAs($user)
+            ->post('/leveranciers/1/producten/1/levering', ['aantal' => 25, 'datum_eerstvolgende_levering' => '2024-05-29'])
+            ->assertForbidden();
+    }
+
     public function test_new_registration_gets_the_default_user_role(): void
     {
         $this->post('/register', [

@@ -18,14 +18,17 @@ class LeveringModel extends StoredProcedureModel
 
     /**
      * Slaat de levering op en verhoogt het aantal in het magazijn.
+     * Geeft false terug als het product niet meer wordt geproduceerd.
      */
-    public function create(int $leverancierId, int $productId, int $aantal, string $datumEerstVolgendeLevering): void
+    public function create(int $leverancierId, int $productId, int $aantal, string $datumEerstVolgendeLevering): bool
     {
-        $this->call('sp_CreateLevering', [
+        $resultaat = $this->callFirst('sp_CreateLevering', [
             $leverancierId,
             $productId,
             $aantal,
             $datumEerstVolgendeLevering,
         ]);
+
+        return (bool) $resultaat?->IsGelukt;
     }
 }

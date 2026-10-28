@@ -521,7 +521,8 @@ DELIMITER ;
 -- Step: 18
 -- Goal: Stored procedure sp_CreateLevering
 --       Registreert een nieuwe levering (ProductPerLeverancier) en verhoogt het
---       aantal in het magazijn.
+--       aantal in het magazijn. Een product dat niet meer wordt geproduceerd
+--       (IsActief = 0) wordt geweigerd: IsGelukt = 0.
 -- **********************************************************************************
 -- Version       Date:           Author:                     Description:
 -- *******       **********      ****************            ******************
@@ -540,45 +541,58 @@ CREATE PROCEDURE sp_CreateLevering
    ,IN p_DatumEerstVolgendeLevering DATE
 )
 BEGIN
+    DECLARE v_ProductIsActief TINYINT DEFAULT 0;
+
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
         RESIGNAL;
     END;
 
-    START TRANSACTION;
+    SELECT   CAST(PROD.IsActief AS UNSIGNED)
+    INTO     v_ProductIsActief
+    FROM     Product AS PROD
+    WHERE    PROD.Id = p_ProductId;
 
-    INSERT INTO ProductPerLeverancier
-    (
-         LeverancierId
-        ,ProductId
-        ,DatumLevering
-        ,Aantal
-        ,DatumEerstVolgendeLevering
-        ,IsActief
-        ,Opmerking
-        ,DatumAangemaakt
-        ,DatumGewijzigd
-    )
-    VALUES
-    (
-         p_LeverancierId
-        ,p_ProductId
-        ,CURDATE()
-        ,p_Aantal
-        ,p_DatumEerstVolgendeLevering
-        ,1
-        ,NULL
-        ,SYSDATE(6)
-        ,SYSDATE(6)
-    );
+    IF v_ProductIsActief = 0 THEN
+        SELECT 0 AS IsGelukt;
+    ELSE
+        START TRANSACTION;
 
-    UPDATE   Magazijn
-    SET      AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
-            ,DatumGewijzigd = SYSDATE(6)
-    WHERE    ProductId = p_ProductId;
+        INSERT INTO ProductPerLeverancier
+        (
+             LeverancierId
+            ,ProductId
+            ,DatumLevering
+            ,Aantal
+            ,DatumEerstVolgendeLevering
+            ,IsActief
+            ,Opmerking
+            ,DatumAangemaakt
+            ,DatumGewijzigd
+        )
+        VALUES
+        (
+             p_LeverancierId
+            ,p_ProductId
+            ,CURDATE()
+            ,p_Aantal
+            ,p_DatumEerstVolgendeLevering
+            ,1
+            ,NULL
+            ,SYSDATE(6)
+            ,SYSDATE(6)
+        );
 
-    COMMIT;
+        UPDATE   Magazijn
+        SET      AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
+                ,DatumGewijzigd = SYSDATE(6)
+        WHERE    ProductId = p_ProductId;
+
+        COMMIT;
+
+        SELECT 1 AS IsGelukt;
+    END IF;
 END //
 
 DELIMITER ;

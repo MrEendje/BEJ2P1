@@ -1,4 +1,8 @@
 <x-app-layout>
+    @if (session('melding'))
+        <meta http-equiv="refresh" content="4;url={{ route('leveranciers.producten', $levering->LeverancierId) }}">
+    @endif
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Levering product') }}
@@ -8,6 +12,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+                @if (session('melding'))
+                    <div class="mb-6 rounded-md bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                        {{ session('melding') }}
+                    </div>
+                @endif
+
                 <dl class="grid grid-cols-[max-content_1fr] gap-x-4 gap-y-1 mb-6 text-sm">
                     <dt class="text-gray-500">{{ __('Product') }}:</dt>
                     <dd class="font-medium">{{ $levering->ProductNaam }}</dd>

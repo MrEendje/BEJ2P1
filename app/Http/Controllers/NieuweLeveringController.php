@@ -26,6 +26,8 @@ class NieuweLeveringController extends Controller
 
     /**
      * Slaat de nieuwe zending op en gaat terug naar Geleverde producten.
+     * Wordt het product niet meer geproduceerd, dan tonen we een melding
+     * op het scherm Levering product.
      */
     public function store(Request $request, int $leverancier, int $product): RedirectResponse
     {
@@ -34,17 +36,29 @@ class NieuweLeveringController extends Controller
         $gegevens = $request->validate([
             'aantal' => ['required', 'integer', 'min:1', 'max:100000'],
             'datum_eerstvolgende_levering' => ['required', 'date'],
-        ], [], [
+        ], [
+            'required' => 'Het veld :attribute is verplicht.',
+            'integer' => 'Het veld :attribute moet een geheel getal zijn.',
+            'min' => 'Het veld :attribute moet minimaal :min zijn.',
+            'max' => 'Het veld :attribute mag maximaal :max zijn.',
+            'date' => 'Het veld :attribute moet een geldige datum zijn.',
+        ], [
             'aantal' => 'Aantal producteenheden',
             'datum_eerstvolgende_levering' => 'Datum eerstvolgende levering',
         ]);
 
-        $this->leveringModel->create(
+        $isGelukt = $this->leveringModel->create(
             $leverancier,
             $product,
             (int) $gegevens['aantal'],
             $gegevens['datum_eerstvolgende_levering'],
         );
+
+        if (! $isGelukt) {
+            return redirect()
+                ->route('leveranciers.levering.create', [$leverancier, $product])
+                ->with('melding', "Het product {$levering->ProductNaam} van de leverancier {$levering->LeverancierNaam} wordt niet meer geproduceerd");
+        }
 
         return redirect()
             ->route('leveranciers.producten', $leverancier)
