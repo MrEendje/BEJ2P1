@@ -471,3 +471,114 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+-- ##############################################################################
+-- #  STORED PROCEDURES  -  user story 02: Toevoegen producten
+-- ##############################################################################
+
+
+-- Step: 17
+-- Goal: Stored procedure sp_GetLeveringProduct
+--       Product- en leveranciergegevens voor het scherm Levering product.
+--       Geeft alleen een rij terug als de leverancier dit product levert.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetLeveringProduct;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetLeveringProduct
+(
+    IN p_LeverancierId  INT UNSIGNED
+   ,IN p_ProductId      INT UNSIGNED
+)
+BEGIN
+    SELECT   PROD.Id                        AS ProductId
+            ,PROD.Naam                      AS ProductNaam
+            ,CAST(PROD.IsActief AS UNSIGNED) AS ProductIsActief
+            ,LEVE.Id                        AS LeverancierId
+            ,LEVE.Naam                      AS LeverancierNaam
+            ,LEVE.ContactPersoon
+            ,LEVE.Mobiel
+    FROM     Product AS PROD
+    CROSS JOIN Leverancier AS LEVE
+    WHERE    PROD.Id = p_ProductId
+      AND    LEVE.Id = p_LeverancierId
+      AND    EXISTS (SELECT 1
+                     FROM   ProductPerLeverancier AS PPLE
+                     WHERE  PPLE.LeverancierId = LEVE.Id
+                       AND  PPLE.ProductId     = PROD.Id);
+END //
+
+DELIMITER ;
+
+
+-- Step: 18
+-- Goal: Stored procedure sp_CreateLevering
+--       Registreert een nieuwe levering (ProductPerLeverancier) en verhoogt het
+--       aantal in het magazijn.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_CreateLevering;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_CreateLevering
+(
+    IN p_LeverancierId              INT UNSIGNED
+   ,IN p_ProductId                  INT UNSIGNED
+   ,IN p_Aantal                     INT UNSIGNED
+   ,IN p_DatumEerstVolgendeLevering DATE
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
+    START TRANSACTION;
+
+    INSERT INTO ProductPerLeverancier
+    (
+         LeverancierId
+        ,ProductId
+        ,DatumLevering
+        ,Aantal
+        ,DatumEerstVolgendeLevering
+        ,IsActief
+        ,Opmerking
+        ,DatumAangemaakt
+        ,DatumGewijzigd
+    )
+    VALUES
+    (
+         p_LeverancierId
+        ,p_ProductId
+        ,CURDATE()
+        ,p_Aantal
+        ,p_DatumEerstVolgendeLevering
+        ,1
+        ,NULL
+        ,SYSDATE(6)
+        ,SYSDATE(6)
+    );
+
+    UPDATE   Magazijn
+    SET      AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
+            ,DatumGewijzigd = SYSDATE(6)
+    WHERE    ProductId = p_ProductId;
+
+    COMMIT;
+END //
+
+DELIMITER ;
