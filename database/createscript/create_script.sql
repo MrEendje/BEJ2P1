@@ -4,6 +4,7 @@
 -- Version       Date:           Author:                     Description:
 -- *******       **********      ****************            ******************
 -- 01            10-09-2026      MrEendje                     New
+-- 02            28-10-2026      MrEendje                     Opdracht 2: Quality Street, Winegums inactief, leverdata november
 -- **********************************************************************************/
 
 -- Check if the database exists
@@ -38,7 +39,7 @@ CREATE TABLE IF NOT EXISTS Product
    ,Naam                VARCHAR(50)                     NOT NULL
    ,Barcode             VARCHAR(13)                     NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -70,7 +71,7 @@ VALUES
     ,('Witte Muizen',    '8719587328256', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Reuzen Slangen',  '8719587325641', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Zoute Rijen',     '8719587322739', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,('Winegums',        '8719587327527', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Winegums',        '8719587327527', 0, 'Wordt niet meer geproduceerd', SYSDATE(6), SYSDATE(6))
     ,('Drop Munten',     '8719587322345', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Kruis Drop',      '8719587322265', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Zoute Ruitjes',   '8719587323256', 1, NULL, SYSDATE(6), SYSDATE(6));
@@ -93,7 +94,7 @@ CREATE TABLE IF NOT EXISTS Allergeen
    ,Naam                VARCHAR(50)                     NOT NULL
    ,Omschrijving        VARCHAR(100)                    NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -141,7 +142,7 @@ CREATE TABLE IF NOT EXISTS Leverancier
    ,LeverancierNummer   VARCHAR(15)                     NOT NULL
    ,Mobiel              VARCHAR(12)                     NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -170,7 +171,8 @@ VALUES
     ,('Astra Sweets', 'Jasper del Monte',   'L1029284315', '06-39398734', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Haribo',       'Sven Stalman',       'L1029324748', '06-24383291', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Basset',       'Joyce Stelterberg',  'L1023845773', '06-48293823', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,('De Bron',      'Remco Veenstra',     'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6));
+    ,('De Bron',      'Remco Veenstra',     'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Quality Street', 'Johan Nooij',      'L1029234586', '06-23458456', 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 -- ##############################################################################
@@ -196,7 +198,7 @@ CREATE TABLE IF NOT EXISTS Magazijn
    ,VerpakkingsEenheidInKilogram    DECIMAL(6,3)            NOT NULL
    ,AantalAanwezig                  INT         UNSIGNED        NULL    DEFAULT NULL
    ,IsActief                        BIT                     NOT NULL    DEFAULT 1
-   ,Opmerking                       VARCHAR(250)                NULL    DEFAULT NULL
+   ,Opmerking                       VARCHAR(255)                NULL    DEFAULT NULL
    ,DatumAangemaakt                 DateTime(6)             NOT NULL
    ,DatumGewijzigd                  DateTime(6)             NOT NULL
 
@@ -252,7 +254,7 @@ CREATE TABLE IF NOT EXISTS ProductPerAllergeen
    ,ProductId           INT             UNSIGNED        NOT NULL
    ,AllergeenId         INT             UNSIGNED        NOT NULL
    ,IsActief            BIT                             NOT NULL    DEFAULT 1
-   ,Opmerking           VARCHAR(250)                        NULL    DEFAULT NULL
+   ,Opmerking           VARCHAR(255)                        NULL    DEFAULT NULL
    ,DatumAangemaakt     DateTime(6)                     NOT NULL
    ,DatumGewijzigd      DateTime(6)                     NOT NULL
 
@@ -311,7 +313,7 @@ CREATE TABLE IF NOT EXISTS ProductPerLeverancier
    ,Aantal                      INT         UNSIGNED    NOT NULL
    ,DatumEerstVolgendeLevering  DATE                        NULL    DEFAULT NULL
    ,IsActief                    BIT                     NOT NULL    DEFAULT 1
-   ,Opmerking                   VARCHAR(250)                NULL    DEFAULT NULL
+   ,Opmerking                   VARCHAR(255)                NULL    DEFAULT NULL
    ,DatumAangemaakt             DateTime(6)             NOT NULL
    ,DatumGewijzigd              DateTime(6)             NOT NULL
 
@@ -338,20 +340,259 @@ INSERT INTO ProductPerLeverancier
     ,DatumGewijzigd
 )
 VALUES
-     (1,  1, '2024-10-09', 23, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  1, '2024-10-18', 21, '2024-10-25', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  2, '2024-10-09', 12, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  3, '2024-10-10', 11, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  4, '2024-10-14', 16, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  4, '2024-10-21', 23, '2024-10-28', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  5, '2024-10-14', 45, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  6, '2024-10-14', 30, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  7, '2024-10-12', 12, '2024-10-19', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  7, '2024-10-19', 23, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  8, '2024-10-10', 12, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  9, '2024-10-11',  1, '2024-10-18', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(4, 10, '2024-10-16', 24, '2024-10-30', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 11, '2024-10-10', 47, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 12, '2024-10-11', 45, NULL,         1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 13, '2024-10-12', 23, NULL,         1, NULL, SYSDATE(6), SYSDATE(6));
+     (1,  1, '2024-11-09', 23, '2024-11-16', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  1, '2024-11-18', 21, '2024-11-25', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  2, '2024-11-09', 12, '2024-11-16', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  3, '2024-11-10', 11, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  4, '2024-11-14', 16, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  4, '2024-11-21', 23, '2024-11-28', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  5, '2024-11-14', 45, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  6, '2024-11-14', 30, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  7, '2024-11-12', 12, '2024-11-19', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  7, '2024-11-19', 23, '2024-11-26', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  8, '2024-11-10', 12, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  9, '2024-11-11',  1, '2024-11-18', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(4, 10, '2024-11-16', 24, '2024-11-30', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 11, '2024-11-10', 47, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 11, '2024-11-19', 60, '2024-11-26', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 12, '2024-11-11', 45, NULL,         1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 13, '2024-11-12', 23, NULL,         1, NULL, SYSDATE(6), SYSDATE(6));
+
+
+-- ##############################################################################
+-- #  STORED PROCEDURES  -  user story 01: Overzicht leveranciers
+-- ##############################################################################
+
+
+-- Step: 14
+-- Goal: Stored procedure sp_GetAllLeveranciers
+--       Alle leveranciers met het aantal verschillende producten dat zij aan Jamin
+--       leveren, gesorteerd op Aantal verschillende producten aflopend.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetAllLeveranciers;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetAllLeveranciers()
+BEGIN
+    SELECT   LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+            ,COUNT(DISTINCT PPLE.ProductId)     AS AantalVerschillendeProducten
+    FROM     Leverancier AS LEVE
+    LEFT JOIN ProductPerLeverancier AS PPLE
+           ON PPLE.LeverancierId = LEVE.Id
+    GROUP BY LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+    ORDER BY AantalVerschillendeProducten DESC
+            ,LEVE.Naam ASC;
+END //
+
+DELIMITER ;
+
+
+-- Step: 15
+-- Goal: Stored procedure sp_GetLeverancierById
+--       De gegevens van één leverancier (kop van het scherm Geleverde producten).
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetLeverancierById;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetLeverancierById
+(
+    IN p_LeverancierId  INT UNSIGNED
+)
+BEGIN
+    SELECT   LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+    FROM     Leverancier AS LEVE
+    WHERE    LEVE.Id = p_LeverancierId;
+END //
+
+DELIMITER ;
+
+
+-- Step: 16
+-- Goal: Stored procedure sp_GetGeleverdeProductenByLeverancierId
+--       De verschillende producten die een leverancier aan Jamin heeft geleverd,
+--       met het aantal in het magazijn en de datum van de laatste levering,
+--       gesorteerd op Aantal in magazijn aflopend.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetGeleverdeProductenByLeverancierId;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetGeleverdeProductenByLeverancierId
+(
+    IN p_LeverancierId  INT UNSIGNED
+)
+BEGIN
+    SELECT   PROD.Id                            AS ProductId
+            ,PROD.Naam
+            ,MAGA.AantalAanwezig
+            ,MAGA.VerpakkingsEenheidInKilogram  AS VerpakkingsEenheid
+            ,MAX(PPLE.DatumLevering)            AS LaatsteLevering
+    FROM     ProductPerLeverancier AS PPLE
+    INNER JOIN Product AS PROD
+            ON PROD.Id = PPLE.ProductId
+    LEFT JOIN Magazijn AS MAGA
+           ON MAGA.ProductId = PROD.Id
+    WHERE    PPLE.LeverancierId = p_LeverancierId
+    GROUP BY PROD.Id
+            ,PROD.Naam
+            ,MAGA.AantalAanwezig
+            ,MAGA.VerpakkingsEenheidInKilogram
+    ORDER BY MAGA.AantalAanwezig DESC
+            ,PROD.Naam ASC;
+END //
+
+DELIMITER ;
+
+
+-- ##############################################################################
+-- #  STORED PROCEDURES  -  user story 02: Toevoegen producten
+-- ##############################################################################
+
+
+-- Step: 17
+-- Goal: Stored procedure sp_GetLeveringProduct
+--       Product- en leveranciergegevens voor het scherm Levering product.
+--       Geeft alleen een rij terug als de leverancier dit product levert.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetLeveringProduct;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetLeveringProduct
+(
+    IN p_LeverancierId  INT UNSIGNED
+   ,IN p_ProductId      INT UNSIGNED
+)
+BEGIN
+    SELECT   PROD.Id                        AS ProductId
+            ,PROD.Naam                      AS ProductNaam
+            ,CAST(PROD.IsActief AS UNSIGNED) AS ProductIsActief
+            ,LEVE.Id                        AS LeverancierId
+            ,LEVE.Naam                      AS LeverancierNaam
+            ,LEVE.ContactPersoon
+            ,LEVE.Mobiel
+    FROM     Product AS PROD
+    CROSS JOIN Leverancier AS LEVE
+    WHERE    PROD.Id = p_ProductId
+      AND    LEVE.Id = p_LeverancierId
+      AND    EXISTS (SELECT 1
+                     FROM   ProductPerLeverancier AS PPLE
+                     WHERE  PPLE.LeverancierId = LEVE.Id
+                       AND  PPLE.ProductId     = PROD.Id);
+END //
+
+DELIMITER ;
+
+
+-- Step: 18
+-- Goal: Stored procedure sp_CreateLevering
+--       Registreert een nieuwe levering (ProductPerLeverancier) en verhoogt het
+--       aantal in het magazijn. Een product dat niet meer wordt geproduceerd
+--       (IsActief = 0) wordt geweigerd: IsGelukt = 0.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_CreateLevering;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_CreateLevering
+(
+    IN p_LeverancierId              INT UNSIGNED
+   ,IN p_ProductId                  INT UNSIGNED
+   ,IN p_Aantal                     INT UNSIGNED
+   ,IN p_DatumEerstVolgendeLevering DATE
+)
+BEGIN
+    DECLARE v_ProductIsActief TINYINT DEFAULT 0;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
+    SELECT   CAST(PROD.IsActief AS UNSIGNED)
+    INTO     v_ProductIsActief
+    FROM     Product AS PROD
+    WHERE    PROD.Id = p_ProductId;
+
+    IF v_ProductIsActief = 0 THEN
+        SELECT 0 AS IsGelukt;
+    ELSE
+        START TRANSACTION;
+
+        INSERT INTO ProductPerLeverancier
+        (
+             LeverancierId
+            ,ProductId
+            ,DatumLevering
+            ,Aantal
+            ,DatumEerstVolgendeLevering
+            ,IsActief
+            ,Opmerking
+            ,DatumAangemaakt
+            ,DatumGewijzigd
+        )
+        VALUES
+        (
+             p_LeverancierId
+            ,p_ProductId
+            ,CURDATE()
+            ,p_Aantal
+            ,p_DatumEerstVolgendeLevering
+            ,1
+            ,NULL
+            ,SYSDATE(6)
+            ,SYSDATE(6)
+        );
+
+        UPDATE   Magazijn
+        SET      AantalAanwezig = COALESCE(AantalAanwezig, 0) + p_Aantal
+                ,DatumGewijzigd = SYSDATE(6)
+        WHERE    ProductId = p_ProductId;
+
+        COMMIT;
+
+        SELECT 1 AS IsGelukt;
+    END IF;
+END //
+
+DELIMITER ;

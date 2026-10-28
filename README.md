@@ -18,7 +18,7 @@ Gemaakt volgens les 2.3 (Laravel installeren met gebruikersrollen) en 2.4 (creat
 
 ## Createscript (les 2.4 / BE-opdracht 01)
 
-`database/createscript/create_script.sql` — een **los SQL-script** (te draaien in MySQL
+`database/createscript/create_script.sql` - een **los SQL-script** (te draaien in MySQL
 Workbench of phpMyAdmin, géén Laravel-migratie). Het script:
 
 - maakt de database `jamin` (drop + create, dus opnieuw draaien mag);
@@ -48,7 +48,49 @@ Open http://localhost:8000
 
 ## Demo-accounts (na `migrate --seed`)
 
-| Rol       | E-mail              | Wachtwoord |
-|-----------|---------------------|------------|
-| Beheerder | admin@example.com   | password   |
-| Gebruiker | test@example.com    | password   |
+| Rol                 | E-mail                | Wachtwoord |
+|---------------------|------------------------|------------|
+| Beheerder           | admin@example.com      | password   |
+| Gebruiker           | test@example.com       | password   |
+| Magazijnmedewerker  | magazijn@example.com   | password   |
+
+## Overzicht Magazijn Jamin (BE-opdracht 01)
+
+Naast de Laravel-database (`laravel`, users/roles) gebruikt de app een tweede
+connectie `jamin` (`config/database.php`) voor de zes Jamin-tabellen uit
+`database/createscript/create_script.sql`. Draai dat script los in
+phpMyAdmin/MySQL Workbench om de database `jamin` te (her)maken.
+
+- `/magazijn` - Overzicht Magazijn Jamin (alle producten, op Barcode oplopend).
+- `/magazijn/{product}/levering` - Levering Informatie (leveringen + leverancier,
+  of een melding + auto-redirect als er geen voorraad is).
+- `/magazijn/{product}/allergenen` - Overzicht Allergenen (allergenen op naam
+  oplopend, of een melding + auto-redirect als het product er geen bevat).
+
+Alleen bereikbaar voor de rollen `admin` en `magazijn_medewerker`.
+
+Een export van de `jamin`-database staat in `db/jamin_export.sql`.
+
+## Overzicht leveranciers en Toevoegen producten (BE-opdracht 02)
+
+Deze schermen gebruiken **stored procedures via PDO** (geen Eloquent):
+`app/Models/StoredProcedureModel.php` roept met prepared statements `CALL sp_...`
+aan op de PDO-verbinding van de `jamin`-connectie. `LeverancierModel` en
+`LeveringModel` erven daarvan. De stored procedures staan onderaan het
+createscript (stap 14 t/m 18).
+
+- `/leveranciers` - Overzicht leveranciers (Wireframe-01), gesorteerd op
+  Aantal verschillende producten aflopend. Link staat op de homepage (dashboard).
+- `/leveranciers/{leverancier}/producten` - Geleverde producten (Wireframe-02),
+  gesorteerd op Aantal in magazijn aflopend. Heeft de leverancier nog niets
+  geleverd, dan volgt een melding en na 3 seconden het overzicht (Wireframe-03).
+- `/leveranciers/{leverancier}/producten/{product}/levering` - Levering product
+  (Wireframe-04). Sla op registreert de levering en verhoogt het aantal in het
+  magazijn. Een product met `IsActief = 0` (Winegums) wordt geweigerd met een
+  melding en na 4 seconden terug naar Geleverde producten.
+
+Branches: `feature_overzicht_leverancier` (user story 1) en
+`feature_toevoegen_product` (user story 2), samengevoegd in `dev` en daarna in `main`.
+
+- `docs/Database Specificatie Tabel.docx` (en `.md`) - specificatie van de zes tabellen.
+- `vids/` - demovideo van de gerealiseerde scenario's.

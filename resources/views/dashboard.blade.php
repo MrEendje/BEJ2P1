@@ -21,13 +21,18 @@
                     </p>
                     @if (Auth::user()->isAdmin())
                         <p class="text-sm text-gray-600">
-                            {{ __('Je hebt beheerdersrechten — het menu Gebruikersbeheer is zichtbaar.') }}
+                            {{ __('Je hebt beheerdersrechten, het menu Gebruikersbeheer is zichtbaar.') }}
                         </p>
                     @endif
                     @if (Auth::user()->hasRole(['admin', 'magazijn_medewerker']))
                         <p>
                             <a href="{{ route('magazijn.index') }}" class="text-indigo-600 hover:text-indigo-800 underline">
                                 {{ __('Overzicht Magazijn Jamin') }}
+                            </a>
+                        </p>
+                        <p>
+                            <a href="{{ route('leveranciers.index') }}" class="text-indigo-600 hover:text-indigo-800 underline">
+                                {{ __('Overzicht Leveranciers') }}
                             </a>
                         </p>
                     @endif
