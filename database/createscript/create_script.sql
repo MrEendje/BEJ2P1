@@ -357,3 +357,117 @@ VALUES
     ,(5, 11, '2024-11-19', 60, '2024-11-26', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,(5, 12, '2024-11-11', 45, NULL,         1, NULL, SYSDATE(6), SYSDATE(6))
     ,(5, 13, '2024-11-12', 23, NULL,         1, NULL, SYSDATE(6), SYSDATE(6));
+
+
+-- ##############################################################################
+-- #  STORED PROCEDURES  -  user story 01: Overzicht leveranciers
+-- ##############################################################################
+
+
+-- Step: 14
+-- Goal: Stored procedure sp_GetAllLeveranciers
+--       Alle leveranciers met het aantal verschillende producten dat zij aan Jamin
+--       leveren, gesorteerd op Aantal verschillende producten aflopend.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetAllLeveranciers;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetAllLeveranciers()
+BEGIN
+    SELECT   LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+            ,COUNT(DISTINCT PPLE.ProductId)     AS AantalVerschillendeProducten
+    FROM     Leverancier AS LEVE
+    LEFT JOIN ProductPerLeverancier AS PPLE
+           ON PPLE.LeverancierId = LEVE.Id
+    GROUP BY LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+    ORDER BY AantalVerschillendeProducten DESC
+            ,LEVE.Naam ASC;
+END //
+
+DELIMITER ;
+
+
+-- Step: 15
+-- Goal: Stored procedure sp_GetLeverancierById
+--       De gegevens van één leverancier (kop van het scherm Geleverde producten).
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetLeverancierById;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetLeverancierById
+(
+    IN p_LeverancierId  INT UNSIGNED
+)
+BEGIN
+    SELECT   LEVE.Id
+            ,LEVE.Naam
+            ,LEVE.ContactPersoon
+            ,LEVE.LeverancierNummer
+            ,LEVE.Mobiel
+    FROM     Leverancier AS LEVE
+    WHERE    LEVE.Id = p_LeverancierId;
+END //
+
+DELIMITER ;
+
+
+-- Step: 16
+-- Goal: Stored procedure sp_GetGeleverdeProductenByLeverancierId
+--       De verschillende producten die een leverancier aan Jamin heeft geleverd,
+--       met het aantal in het magazijn en de datum van de laatste levering,
+--       gesorteerd op Aantal in magazijn aflopend.
+-- **********************************************************************************
+-- Version       Date:           Author:                     Description:
+-- *******       **********      ****************            ******************
+-- 01            28-10-2026      MrEendje                     New
+-- **********************************************************************************/
+
+DROP PROCEDURE IF EXISTS sp_GetGeleverdeProductenByLeverancierId;
+
+DELIMITER //
+
+CREATE PROCEDURE sp_GetGeleverdeProductenByLeverancierId
+(
+    IN p_LeverancierId  INT UNSIGNED
+)
+BEGIN
+    SELECT   PROD.Id                            AS ProductId
+            ,PROD.Naam
+            ,MAGA.AantalAanwezig
+            ,MAGA.VerpakkingsEenheidInKilogram  AS VerpakkingsEenheid
+            ,MAX(PPLE.DatumLevering)            AS LaatsteLevering
+    FROM     ProductPerLeverancier AS PPLE
+    INNER JOIN Product AS PROD
+            ON PROD.Id = PPLE.ProductId
+    LEFT JOIN Magazijn AS MAGA
+           ON MAGA.ProductId = PROD.Id
+    WHERE    PPLE.LeverancierId = p_LeverancierId
+    GROUP BY PROD.Id
+            ,PROD.Naam
+            ,MAGA.AantalAanwezig
+            ,MAGA.VerpakkingsEenheidInKilogram
+    ORDER BY MAGA.AantalAanwezig DESC
+            ,PROD.Naam ASC;
+END //
+
+DELIMITER ;

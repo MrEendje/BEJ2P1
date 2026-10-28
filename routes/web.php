@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AllergenenController;
+use App\Http\Controllers\LeverancierController;
 use App\Http\Controllers\LeveringController;
 use App\Http\Controllers\MagazijnController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,16 @@ Route::middleware(['auth', 'role:admin,magazijn_medewerker'])
         Route::get('/', [MagazijnController::class, 'index'])->name('index');
         Route::get('/{product}/levering', [LeveringController::class, 'show'])->name('levering');
         Route::get('/{product}/allergenen', [AllergenenController::class, 'show'])->name('allergenen');
+    });
+
+// Overzicht leveranciers: bereikbaar voor beheerders en magazijnmedewerkers.
+Route::middleware(['auth', 'role:admin,magazijn_medewerker'])
+    ->prefix('leveranciers')
+    ->name('leveranciers.')
+    ->whereNumber('leverancier')
+    ->group(function () {
+        Route::get('/', [LeverancierController::class, 'index'])->name('index');
+        Route::get('/{leverancier}/producten', [LeverancierController::class, 'producten'])->name('producten');
     });
 
 // Beheerdersgedeelte: alleen bereikbaar met de rol 'admin'.
