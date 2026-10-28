@@ -4,6 +4,7 @@
 -- Version       Date:           Author:                     Description:
 -- *******       **********      ****************            ******************
 -- 01            10-09-2026      MrEendje                     New
+-- 02            28-10-2026      MrEendje                     Opdracht 2: Quality Street, Winegums inactief, leverdata november
 -- **********************************************************************************/
 
 -- Check if the database exists
@@ -70,7 +71,7 @@ VALUES
     ,('Witte Muizen',    '8719587328256', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Reuzen Slangen',  '8719587325641', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Zoute Rijen',     '8719587322739', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,('Winegums',        '8719587327527', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Winegums',        '8719587327527', 0, 'Wordt niet meer geproduceerd', SYSDATE(6), SYSDATE(6))
     ,('Drop Munten',     '8719587322345', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Kruis Drop',      '8719587322265', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Zoute Ruitjes',   '8719587323256', 1, NULL, SYSDATE(6), SYSDATE(6));
@@ -170,7 +171,8 @@ VALUES
     ,('Astra Sweets', 'Jasper del Monte',   'L1029284315', '06-39398734', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Haribo',       'Sven Stalman',       'L1029324748', '06-24383291', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,('Basset',       'Joyce Stelterberg',  'L1023845773', '06-48293823', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,('De Bron',      'Remco Veenstra',     'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6));
+    ,('De Bron',      'Remco Veenstra',     'L1023857736', '06-34291234', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,('Quality Street', 'Johan Nooij',      'L1029234586', '06-23458456', 1, NULL, SYSDATE(6), SYSDATE(6));
 
 
 -- ##############################################################################
@@ -338,20 +340,20 @@ INSERT INTO ProductPerLeverancier
     ,DatumGewijzigd
 )
 VALUES
-     (1,  1, '2024-10-09', 23, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  1, '2024-10-18', 21, '2024-10-25', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  2, '2024-10-09', 12, '2024-10-16', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(1,  3, '2024-10-10', 11, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  4, '2024-10-14', 16, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  4, '2024-10-21', 23, '2024-10-28', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  5, '2024-10-14', 45, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(2,  6, '2024-10-14', 30, '2024-10-21', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  7, '2024-10-12', 12, '2024-10-19', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  7, '2024-10-19', 23, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  8, '2024-10-10', 12, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(3,  9, '2024-10-11',  1, '2024-10-18', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(4, 10, '2024-10-16', 24, '2024-10-30', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 11, '2024-10-10', 47, '2024-10-17', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 11, '2024-10-19', 60, '2024-10-26', 1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 12, '2024-10-11', 45, NULL,         1, NULL, SYSDATE(6), SYSDATE(6))
-    ,(5, 13, '2024-10-12', 23, NULL,         1, NULL, SYSDATE(6), SYSDATE(6));
+     (1,  1, '2024-11-09', 23, '2024-11-16', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  1, '2024-11-18', 21, '2024-11-25', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  2, '2024-11-09', 12, '2024-11-16', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(1,  3, '2024-11-10', 11, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  4, '2024-11-14', 16, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  4, '2024-11-21', 23, '2024-11-28', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  5, '2024-11-14', 45, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(2,  6, '2024-11-14', 30, '2024-11-21', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  7, '2024-11-12', 12, '2024-11-19', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  7, '2024-11-19', 23, '2024-11-26', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  8, '2024-11-10', 12, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(3,  9, '2024-11-11',  1, '2024-11-18', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(4, 10, '2024-11-16', 24, '2024-11-30', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 11, '2024-11-10', 47, '2024-11-17', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 11, '2024-11-19', 60, '2024-11-26', 1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 12, '2024-11-11', 45, NULL,         1, NULL, SYSDATE(6), SYSDATE(6))
+    ,(5, 13, '2024-11-12', 23, NULL,         1, NULL, SYSDATE(6), SYSDATE(6));
